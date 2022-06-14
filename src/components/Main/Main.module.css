@@ -1,0 +1,12 @@
+.container {
+}
+
+.mainContent {
+  margin-top: 3rem;
+  padding: 2rem;
+}
+
+.mainContent h2 {
+  margin-bottom: 3rem;
+  color: white;
+}

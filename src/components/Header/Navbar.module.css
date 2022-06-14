@@ -1,0 +1,62 @@
+.container {
+  position: fixed;
+  height: 4rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  top: 0;
+  left: 0;
+  background-color: white;
+}
+
+.logoContainer {
+  flex: 2;
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 10;
+  width: 100%;
+}
+
+.searchContainer input {
+  border: none;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  width: 80%;
+}
+
+.searchContainer input:focus {
+  border: none;
+  outline: none;
+}
+
+.container select {
+  width: 15rem;
+  display: flex;
+  flex-direction: row;
+  outline: none;
+  border: none;
+  background-color: #202020;
+  color: white;
+  font-size: 1.3rem;
+  border-radius: 0.3rem;
+}
+@media only screen and (max-width: 1300px) {
+  .logoContainer {
+    display: none;
+  }
+
+  .container select {
+    width: 10rem;
+    display: flex;
+    flex-direction: row;
+  }
+}

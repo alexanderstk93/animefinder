@@ -1,0 +1,48 @@
+.container {
+  background-color: white;
+  width: 65rem;
+  border-radius: 0.5rem;
+  display: flex;
+  padding: 1rem;
+}
+
+.leftSide {
+  margin-right: 1rem;
+}
+
+.leftSide img {
+  border-radius: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.rightSide {
+}
+
+.ranking {
+  font-style: italic;
+  font-size: 1.2rem;
+}
+
+.title-and-type {
+  margin-bottom: 2rem;
+}
+
+.description {
+  text-align: justify;
+  margin-bottom: 1rem;
+}
+
+.description p:nth-child(1) {
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.linkContainer {
+  text-align: start;
+  font-size: 1.2rem;
+}
+.genres {
+  text-align: start;
+  font-style: italic;
+}
