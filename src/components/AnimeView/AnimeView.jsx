@@ -3,18 +3,38 @@ import { useLocation, useParams } from "react-router";
 import styles from "./AnimeView.module.css";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import AnimeViewCard from "./AnimeViewCard";
+import AnimeSuggested from "./AnimeSuggested";
+import { useState } from "react";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 export default function AnimeView() {
   const params = useParams();
   const animesFound = useSelector((state) => state.anime.animesFound);
+  const [startFrom, setStartFrom] = useState(0);
 
   const checkForAnime = () => {
     const searchAnimeById = animesFound.data?.filter(
       (animee) => animee._id === params.id
     );
-    console.log(searchAnimeById);
+
+    if (!searchAnimeById || searchAnimeById.length === 0) {
+      return (
+        <h1
+          style={{
+            color: "white",
+            textAlign: "center",
+            marginTop: "10rem",
+          }}
+        >
+          The ID of anime you entered doesn't exist!
+        </h1>
+      );
+    }
+
     const animeAsCard = searchAnimeById?.map((anime) => (
       <AnimeViewCard
+        key={anime._id}
         title={anime.title}
         ranking={anime.ranking}
         img={anime.image}
@@ -26,17 +46,67 @@ export default function AnimeView() {
         status={anime.status}
       />
     ));
-    console.log(animeAsCard);
+
     return animeAsCard;
+  };
+
+  const loadSuggestedAnimes = () => {
+    const filterAnimes = animesFound.data?.filter(
+      (animee) => animee._id !== params.id
+    );
+    const transformToSuggestedCards = [];
+    if (filterAnimes && startFrom < filterAnimes.length) {
+      for (
+        let i = startFrom;
+        i <= startFrom + 3 && i < filterAnimes.length;
+        i++
+      ) {
+        transformToSuggestedCards.push(
+          <AnimeSuggested
+            key={filterAnimes[i]._id}
+            id={filterAnimes[i]._id}
+            title={filterAnimes[i].title}
+            description={filterAnimes[i].synopsis}
+            img={filterAnimes[i].image}
+          />
+        );
+      }
+    }
+    console.log(transformToSuggestedCards);
+    return transformToSuggestedCards;
+  };
+
+  const changeStarter = (action) => {
+    console.log(animesFound.data.length - 1);
+    if (
+      action === "increment" &&
+      startFrom + 3 <= animesFound.data.length - 1
+    ) {
+      setStartFrom((state) => (state += 4));
+    } else if (action === "decrement") {
+      if (startFrom - 3 >= 0) {
+        setStartFrom((state) => (state -= 4));
+      }
+    }
   };
 
   return (
     <div className={styles.container}>
-      <h1 style={{ color: "cyan", fontStyle: "italic", marginBottom: "3rem" }}>
-        Section under development
-      </h1>
-      <div className={styles.card} style={{ marginLeft: "5rem" }}>
-        {checkForAnime()}
+      <div className={styles.leftSide}>{checkForAnime()}</div>
+      <div className={styles.rightSide}>
+        <div className={styles.controls}>
+          <ArrowBackIosNewIcon
+            className={styles.arrowLeft}
+            sx={{ color: "white", fontSize: "2rem" }}
+            onClick={() => changeStarter("decrement")}
+          />
+          <ArrowForwardIosIcon
+            className={styles.arrowRight}
+            sx={{ color: "white", fontSize: "2rem" }}
+            onClick={() => changeStarter("increment")}
+          />
+        </div>
+        {loadSuggestedAnimes()}
       </div>
     </div>
   );

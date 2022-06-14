@@ -19,7 +19,6 @@ export default function Navbar() {
   };
 
   const selectHandler = (e) => {
-    console.log(selectRef.current.value);
     if (selectRef.current.value === "none") {
       dispatch(setSelect(""));
     } else {

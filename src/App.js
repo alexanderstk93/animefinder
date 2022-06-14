@@ -1,6 +1,6 @@
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { setAnimesFound } from "./store/animeSlice";
 import Main from "./components/Main/Main";
 import { setSearchStatus } from "./store/animeSlice";
@@ -34,13 +34,12 @@ function App() {
       )
         .then((response) => response.json())
         .then((response) => {
-          console.log(response);
           dispatch(setAnimesFound(response));
           dispatch(setSearchStatus(false));
         })
         .catch((err) => console.error(err));
     }
-  }, [searchContent, dispatch, selectContent]);
+  }, [searchContent, selectContent, dispatch]);
 
   return (
     <div className="App">
@@ -48,6 +47,20 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/animeview/:id" element={<AnimeView />} />
+          <Route
+            path="*"
+            element={
+              <h1
+                style={{
+                  color: "white",
+                  textAlign: "center",
+                  marginTop: "10rem",
+                }}
+              >
+                Page not found, maybe check your request..?
+              </h1>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  height: 9rem;
+  margin-bottom: 1.2rem;
+  background-color: white;
+  overflow: hidden;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.container:hover {
+  box-shadow: 0px 0px 15px 5px rgba(134, 231, 120, 0.5);
+}
+
+.imageContainer {
+  height: 100%;
+}
+
+.imageContainer img {
+  width: 10rem;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+}
+
+.title-and-description {
+  padding: 0.5rem;
+}

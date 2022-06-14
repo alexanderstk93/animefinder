@@ -42,6 +42,10 @@
   text-align: start;
   font-size: 1.2rem;
 }
+
+.linkContainer a {
+  word-break: break-all;
+}
 .genres {
   text-align: start;
   font-style: italic;
