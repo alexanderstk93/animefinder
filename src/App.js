@@ -1,17 +1,32 @@
 import "./App.css";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { setAnimesFound } from "./store/animeSlice";
 import Main from "./components/Main/Main";
 import { setSearchStatus } from "./store/animeSlice";
-
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { database } from "./firebase-config";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AnimeView from "./components/AnimeView/AnimeView";
+import { setUsers } from "./store/usersSlice";
+import RegisterPage from "./components/RegisterLogin/RegisterPage";
+import LoginPage from "./components/RegisterLogin/LoginPage";
+import { setIsLoggedIn, setUsername } from "./store/userStatus";
 
 function App() {
   const searchContent = useSelector((state) => state.anime.searchContent);
+
   const dispatch = useDispatch();
+
   const selectContent = useSelector((state) => state.anime.selectContent);
+
+  const localStorageIsLoggedIn = localStorage.getItem("isLoggedIn");
+  const localStorageUsername = localStorage.getItem("username");
+
+  if (localStorageIsLoggedIn) {
+    dispatch(setIsLoggedIn(true));
+    dispatch(setUsername(localStorageUsername));
+  }
 
   useEffect(() => {
     if (searchContent.length > 3 || selectContent) {
@@ -26,7 +41,9 @@ function App() {
       };
       fetch(
         `https://anime-db.p.rapidapi.com/anime?page=1&size=50${
-          searchContent.length > 3 ? `&search=${searchContent}` : ""
+          searchContent.length === 0 || searchContent.length > 3
+            ? `&search=${searchContent}`
+            : ""
         }&sortBy=ranking&sortOrder=asc${
           selectContent.length > 1 ? `&genres=${selectContent}` : ""
         }`,
@@ -47,6 +64,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/animeview/:id" element={<AnimeView />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route
             path="*"
             element={

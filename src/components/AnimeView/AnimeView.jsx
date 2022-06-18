@@ -7,6 +7,7 @@ import AnimeSuggested from "./AnimeSuggested";
 import { useState } from "react";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function AnimeView() {
   const params = useParams();
@@ -19,17 +20,7 @@ export default function AnimeView() {
     );
 
     if (!searchAnimeById || searchAnimeById.length === 0) {
-      return (
-        <h1
-          style={{
-            color: "white",
-            textAlign: "center",
-            marginTop: "10rem",
-          }}
-        >
-          The ID of anime you entered doesn't exist!
-        </h1>
-      );
+      return <CircularProgress color="secondary" />;
     }
 
     const animeAsCard = searchAnimeById?.map((anime) => (
@@ -97,7 +88,7 @@ export default function AnimeView() {
         <div className={styles.controls}>
           <ArrowBackIosNewIcon
             className={styles.arrowLeft}
-            sx={{ color: "white", fontSize: "2rem" }}
+            sx={{ color: startFrom === 0 ? "grey" : "white", fontSize: "2rem" }}
             onClick={() => changeStarter("decrement")}
           />
           <ArrowForwardIosIcon
@@ -106,7 +97,7 @@ export default function AnimeView() {
             onClick={() => changeStarter("increment")}
           />
         </div>
-        {loadSuggestedAnimes()}
+        {loadSuggestedAnimes() || <CircularProgress color="secondary" />}
       </div>
     </div>
   );

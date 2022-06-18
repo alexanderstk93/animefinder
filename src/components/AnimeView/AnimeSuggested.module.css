@@ -6,6 +6,8 @@
   overflow: hidden;
   border-radius: 0.3rem;
   cursor: pointer;
+  animation: fade-in 1s;
+  animation-fill-mode: forwards;
 }
 
 .container:hover {
@@ -25,4 +27,13 @@
 
 .title-and-description {
   padding: 0.5rem;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
