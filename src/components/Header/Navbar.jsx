@@ -33,6 +33,9 @@ export default function Navbar() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.navBackground}>
+        <img src={require("../../assets/images/wallpaper-1.png")} alt="" />
+      </div>
       <div className={styles.logoContainer}>Anime Finder</div>
       <div className={styles.searchContainer}>
         <SearchIcon sx={{ width: "40px", height: "40px" }} />
@@ -47,16 +50,20 @@ export default function Navbar() {
         className={styles["login-register"]}
         style={isLoggedIn ? { display: "none" } : { display: "block" }}
       >
-        <Link to={"/login"}>Login</Link>
-        <span>/</span>
+        <Link to={"/login"}>Log In</Link>
         <Link to={"/register"}>Register</Link>
       </div>
       <div
         className={styles["loggedInUser-info"]}
         style={isLoggedIn ? { display: "flex" } : { display: "none" }}
       >
-        <h4>{loggedInUserName}</h4>
-        <p onClick={logOutHandler}>Log Out</p>
+        <div className={styles.connectedAs}>
+          <p>Connected as</p>
+          <h4>{loggedInUserName}</h4>
+        </div>
+        <p onClick={logOutHandler} className={styles.logOut}>
+          Log Out
+        </p>
       </div>
     </div>
   );

@@ -8,6 +8,11 @@ export default function LoginPage() {
       <div className={styles.formContainer}>
         <UniversalForm />
       </div>
+      <img
+        src={require("../../assets/images/wallpaper-3.jpg")}
+        className={styles.background}
+        alt=""
+      />
     </div>
   );
 }

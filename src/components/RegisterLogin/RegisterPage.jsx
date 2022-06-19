@@ -11,13 +11,16 @@ import { database } from "../../firebase-config";
 export default function RegisterPage() {
   const navigate = useNavigate();
 
-  
-
   return (
     <div className={styles.container}>
       <div className={styles.formContainer}>
         <UniversalForm isForRegister />
       </div>
+      <img
+        src={require("../../assets/images/wallpaper-2.jpg")}
+        className={styles.background}
+        alt=""
+      />
     </div>
   );
 }

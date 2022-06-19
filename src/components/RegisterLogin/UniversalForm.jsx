@@ -21,29 +21,50 @@ export default function UniversalForm({ isForRegister }) {
   if (isLoggedIn) navigate("/");
 
   const usersCollectionRef = collection(database, "users");
+
   const usernameRef = useRef();
+
   const emailRef = useRef();
+
   const passwordRef = useRef();
+
   const [users, setUsers] = useState([]);
+
   const dispatch = useDispatch();
 
-  const handleRegisterForm = async () => {
-    try {
-      await addDoc(usersCollectionRef, {
-        email: emailRef.current.value,
-        username: usernameRef.current.value,
-        password: passwordRef.current.value,
-        isAdmin: false,
+  const [usernameOrEmailAlreadyInUse, setUsernameOrEmailAlreadyInUse] =
+    useState(false);
+  const [usernameAndPasswordDoesntFit, setUsernameAndPasswordDoesntFit] =
+    useState(false);
 
-        created: Timestamp.now(),
-      });
-      usernameRef.current.value = "";
-      emailRef.current.value = "";
-      passwordRef.current.value = "";
-    } catch (error) {
-      console.log(error);
+  const handleRegisterForm = async () => {
+    const findExistingUser = users.filter(
+      (user) =>
+        user.data.username === usernameRef.current.value ||
+        user.data.email === emailRef.current.value
+    );
+    console.log(findExistingUser);
+    if (findExistingUser.length > 0) {
+      setUsernameOrEmailAlreadyInUse(true);
+    } else {
+      try {
+        await addDoc(usersCollectionRef, {
+          email: emailRef.current.value,
+          username: usernameRef.current.value,
+          password: passwordRef.current.value,
+          isAdmin: false,
+
+          created: Timestamp.now(),
+        });
+        usernameRef.current.value = "";
+        emailRef.current.value = "";
+        passwordRef.current.value = "";
+      } catch (error) {
+        console.log(error);
+      }
+      setUsernameOrEmailAlreadyInUse(false);
+      navigate("/login");
     }
-    navigate("/login");
   };
 
   useEffect(() => {
@@ -71,7 +92,10 @@ export default function UniversalForm({ isForRegister }) {
       dispatch(setUsername(foundUser[0].data.username));
       localStorage.setItem("isLoggedIn", true);
       localStorage.setItem("username", foundUser[0].data.username);
+      setUsernameAndPasswordDoesntFit(false);
       navigate("/");
+    } else {
+      setUsernameAndPasswordDoesntFit(true);
     }
   };
 
@@ -118,7 +142,23 @@ export default function UniversalForm({ isForRegister }) {
             minLength="10"
           />
         </div>
+        <p
+          className={styles.errorMessage}
+          style={
+            usernameAndPasswordDoesntFit || usernameOrEmailAlreadyInUse
+              ? { visibility: "visible" }
+              : { visibility: "hidden" }
+          }
+        >
+          {/* This is a boilerplate logic, because the styles can't work properly if there is no content already */}
+          {!usernameAndPasswordDoesntFit &&
+            !usernameOrEmailAlreadyInUse &&
+            "Boilerplate Text"}
+          {/* This is a boilerplate logic, because the styles can't work properly if there is no content already */}
 
+          {usernameOrEmailAlreadyInUse && "Username or Email already in use."}
+          {usernameAndPasswordDoesntFit && "Username and Password doesn't fit."}
+        </p>
         <button type="submit" className={styles.create}>
           {isForRegister ? "Create Account" : "Login"}
         </button>

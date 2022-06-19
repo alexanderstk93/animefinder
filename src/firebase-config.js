@@ -8,7 +8,7 @@ import { getFirestore } from "@firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAlqCj6vqcpq3td6OuPAUYecIBp2ul0iog", // TODO: use env key
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "animefinder-17287.firebaseapp.com",
   projectId: "animefinder-17287",
   storageBucket: "animefinder-17287.appspot.com",
