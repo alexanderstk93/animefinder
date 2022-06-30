@@ -8,8 +8,7 @@ export default function AnimeList() {
   const searchContent = useSelector((state) => state.anime.searchContent);
 
   const loadAnimesAsCards = () => {
-    console.log(animesFound.data);
-    const animesAsItems = animesFound.data?.map((anime) => {
+    const animesAsItems = animesFound?.map((anime) => {
       return (
         <AnimeItem
           id={anime._id}
@@ -26,7 +25,7 @@ export default function AnimeList() {
 
   return (
     <div className={styles.container}>
-      <ul className={styles.list}>{animesFound.data && loadAnimesAsCards()}</ul>
+      <ul className={styles.list}>{animesFound && loadAnimesAsCards()}</ul>
     </div>
   );
 }

@@ -25,9 +25,6 @@ export default function AnimeViewCard({
           <p>Type: {type}</p>
           <p>Status: {status}</p>
         </div>
-        <div className={styles.genres}>
-          <p>Genres: {genres}</p>
-        </div>
         <div className={styles.description}>
           <p>Description:</p>
           <p>{description}</p>

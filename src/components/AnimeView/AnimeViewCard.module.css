@@ -15,9 +15,6 @@
   margin-bottom: 1rem;
 }
 
-.rightSide {
-}
-
 .ranking {
   font-style: italic;
   font-size: 1.2rem;
@@ -25,6 +22,15 @@
 
 .title-and-type {
   margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+
+.title-and-type p:nth-child(2) {
+  margin-top: 1rem;
+}
+
+.title-and-type p {
+  font-size: 1rem;
 }
 
 .description {
@@ -49,4 +55,49 @@
 .genres {
   text-align: start;
   font-style: italic;
+}
+
+@media only screen and (max-width: 1300px) {
+  .container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .leftSide {
+    font-size: 0.9rem;
+  }
+
+  .ranking {
+    font-style: italic;
+    font-size: 1.2rem;
+  }
+
+  .title-and-type {
+    margin-bottom: 2rem;
+    font-size: 0.7rem;
+  }
+
+  .description {
+    text-align: justify;
+    margin-bottom: 1rem;
+  }
+
+  .description p:nth-child(1) {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  .linkContainer {
+    text-align: start;
+    font-size: 1rem;
+  }
+
+  .linkContainer a {
+    word-break: break-all;
+  }
+  .genres {
+    text-align: start;
+    font-style: italic;
+  }
 }

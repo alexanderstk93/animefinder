@@ -4,23 +4,48 @@ import { useEffect } from "react";
 import { setAnimesFound } from "./store/animeSlice";
 import Main from "./components/Main/Main";
 import { setSearchStatus } from "./store/animeSlice";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { useState } from "react";
+import {
+  collection,
+  getDocs,
+  onSnapshot,
+  setDoc,
+  doc,
+  orderBy,
+  query,
+  QuerySnapshot,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { database } from "./firebase-config";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AnimeView from "./components/AnimeView/AnimeView";
 import { setUsers } from "./store/usersSlice";
 import RegisterPage from "./components/RegisterLogin/RegisterPage";
 import LoginPage from "./components/RegisterLogin/LoginPage";
-import { setIsLoggedIn, setUsername } from "./store/userStatus";
+import {
+  setIsLoggedIn,
+  setUsername,
+  setWindowHeight,
+} from "./store/userStatus";
 
 function App() {
   const searchContent = useSelector((state) => state.anime.searchContent);
-
+  const [animesNumbers, setAnimesNumbers] = useState([]);
   const dispatch = useDispatch();
+  const animesFound = useSelector((state) => state.anime.animesFound);
+  const updateWindowHeightOnScroll = (value) => {
+    dispatch(setWindowHeight(value));
+  };
 
+  window.addEventListener("scroll", () =>
+    updateWindowHeightOnScroll(window.scrollY)
+  );
   const selectContent = useSelector((state) => state.anime.selectContent);
 
+  const animesFirestoreRef = collection(database, "animes");
   const localStorageIsLoggedIn = localStorage.getItem("isLoggedIn");
+
   const localStorageUsername = localStorage.getItem("username");
 
   if (localStorageIsLoggedIn) {
@@ -28,6 +53,24 @@ function App() {
     dispatch(setUsername(localStorageUsername));
   }
 
+  // WRITE ANIMES NUMBER TO FIRESTORE
+  // if (animesFound.length > 0) {
+  //   animesFound.map(async (anime) => {
+  //     await setDoc(doc(database, "animes", anime._id), { comments: "none" });
+  //   });
+  // }
+
+  const deleteAllAnimes = async () => {
+    try {
+      await deleteDoc(doc(database, "animes", "10030"));
+    } catch (err) {
+      console.log(`coaieee ${err}`);
+    }
+  };
+
+  deleteAllAnimes();
+
+  // FETCH ANIMES FROM THE ANIMES API
   useEffect(() => {
     if (searchContent.length > 3 || selectContent) {
       dispatch(setSearchStatus(true));
@@ -51,7 +94,7 @@ function App() {
       )
         .then((response) => response.json())
         .then((response) => {
-          dispatch(setAnimesFound(response));
+          dispatch(setAnimesFound(response.data));
           dispatch(setSearchStatus(false));
         })
         .catch((err) => console.error(err));

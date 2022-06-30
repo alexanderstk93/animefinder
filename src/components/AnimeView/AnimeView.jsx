@@ -15,7 +15,7 @@ export default function AnimeView() {
   const [startFrom, setStartFrom] = useState(0);
 
   const checkForAnime = () => {
-    const searchAnimeById = animesFound.data?.filter(
+    const searchAnimeById = animesFound?.filter(
       (animee) => animee._id === params.id
     );
 
@@ -42,7 +42,7 @@ export default function AnimeView() {
   };
 
   const loadSuggestedAnimes = () => {
-    const filterAnimes = animesFound.data?.filter(
+    const filterAnimes = animesFound?.filter(
       (animee) => animee._id !== params.id
     );
     const transformToSuggestedCards = [];
@@ -68,11 +68,8 @@ export default function AnimeView() {
   };
 
   const changeStarter = (action) => {
-    console.log(animesFound.data.length - 1);
-    if (
-      action === "increment" &&
-      startFrom + 3 <= animesFound.data.length - 1
-    ) {
+    console.log(animesFound.length - 1);
+    if (action === "increment" && startFrom + 3 <= animesFound.length - 1) {
       setStartFrom((state) => (state += 4));
     } else if (action === "decrement") {
       if (startFrom - 3 >= 0) {
